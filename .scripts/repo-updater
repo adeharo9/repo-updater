@@ -1,0 +1,140 @@
+#!/bin/bash
+
+## REPO SPECIFIC DIRECTORIES
+GIT_DIR=.git
+HG_DIR=.hg
+SVN_DIR=.svn
+
+## COUNTERS
+GIT_COUNT=0
+HG_COUNT=0
+SVN_COUNT=0
+
+## USAGE FUNCTION
+function usage
+{
+    printf "Usage: $0 list-of-directories\n"
+}
+
+## REPO TESTING FUNCTION DEFINITIONS
+function isRepoType
+{
+    if [[ $# -eq 0 ]];
+    then
+        false
+        return
+    fi
+
+    if [[ $# -eq 1 ]];
+    then
+        DIR=.
+    else
+        DIR=$2
+    fi
+
+    [[ -d ${DIR}/$1 ]];
+}
+
+function isGit
+{
+    isRepoType ${GIT_DIR} $1
+}
+function isHg
+{
+    isRepoType ${HG_DIR} $1
+}
+
+function isSvn
+{
+    isRepoType ${SVN_DIR} $1
+}
+
+## REPO UPDATE FUNCTION DEFINITIONS
+function updateGit
+{
+    if [[ $# -eq 0 ]];
+    then
+        false
+        return
+    fi
+
+    OLD_PATH=$(pwd)
+	printf "    Updating git repository %s...\n" $1
+	cd $1
+	printf "    "
+	git pull
+	((++GIT_COUNT))
+    printf "\n"
+    cd ${OLD_PATH}
+}
+
+function updateHg
+{
+    if [[ $# -eq 0 ]];
+    then
+        false
+        return
+    fi
+
+    OLD_PATH=$(pwd)
+	printf "    Updating hg repository %s...\n" $1
+	cd $1
+	printf "    "
+	hg pull
+	((++GIT_COUNT))
+    printf "\n"
+    cd ${OLD_PATH}
+}
+
+function updateSvn
+{
+    if [[ $# -eq 0 ]];
+    then
+        false
+        return
+    fi
+
+    OLD_PATH=$(pwd)
+	printf "    Updating svn repository %s...\n" $1
+	printf "    "
+	cd $1
+	svn update
+	((++SVN_COUNT))
+    printf "\n"
+    cd ${OLD_PATH}
+}
+
+## SCRIPT BODY
+if [[ $# -eq 0 ]]
+then
+    usage
+    exit 1
+fi
+
+printf "Updating repositories...\n"
+for UPPER_DIR in $@
+do
+    cd ${UPPER_DIR}
+    DIRS=$(ls -Ad */)
+
+    for DIR in ${DIRS}
+    do
+        if isGit ${DIR};
+        then
+            updateGit ${DIR}
+        elif isHg ${DIR};
+        then
+            updateHg ${DIR}
+        elif isSvn ${DIR};
+        then
+            updateSvn ${DIR}
+        fi
+    done
+done
+
+printf "%s Git repositories updated\n" ${GIT_COUNT}
+printf "%s Hg repositories updated\n" ${HG_COUNT}
+printf "%s Svn repositories updated\n" ${SVN_COUNT}
+printf "\n"
+printf "Done\n"
+exit 0
