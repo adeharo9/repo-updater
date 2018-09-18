@@ -81,7 +81,7 @@ function updateHg
 	cd $1
 	printf "    "
 	hg pull
-	((++GIT_COUNT))
+	((++HG_COUNT))
     printf "\n"
     cd ${OLD_PATH}
 }
