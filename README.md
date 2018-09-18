@@ -12,7 +12,7 @@ Currently supported version control systems are:
 I like to put all my utility scripts under `~/.scripts` and add this directory to my path by using the following command:
 
 ```
-export PATH='$PATH:/home/{my-user}/.scripts'
+export PATH="$PATH:$HOME/.scripts"
 ```
 
 I also tend to make this change persistent by appending that line to the end of my `.bashrc` file so it is loaded at the beginning of each session.
