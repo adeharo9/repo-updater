@@ -8,7 +8,12 @@ Currently supported version control systems are:
 - Mercurial
 - Subversion
 
-## How to
+## Installation
+I like to put all my utility scripts under `~/.scripts` and add this directory to my path by using `export PATH='$PATH:~/.scripts'`. I also tend to make this change permanent by appending that line to the end of my `.bashrc` file so it is loaded at the beginning of each session.
+
+Obviously, these are only personal preferences; you can choose your own way to do it :)
+
+## How to use it?
 The script takes a list of one or more directories as input: it enters each of those directories in search for repositories on its immediate subdirectories:
 
 - If a subdirectory is a repository, it tries to update it.
