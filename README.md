@@ -9,7 +9,13 @@ Currently supported version control systems are:
 - Subversion
 
 ## Installation
-I like to put all my utility scripts under `~/.scripts` and add this directory to my path by using `export PATH='$PATH:~/.scripts'`. I also tend to make this change permanent by appending that line to the end of my `.bashrc` file so it is loaded at the beginning of each session.
+I like to put all my utility scripts under `~/.scripts` and add this directory to my path by using the following command:
+
+```
+export PATH='$PATH:/home/{my-user}/.scripts'
+```
+
+I also tend to make this change persistent by appending that line to the end of my `.bashrc` file so it is loaded at the beginning of each session.
 
 Obviously, these are only personal preferences; you can choose your own way to do it :)
 
@@ -21,8 +27,8 @@ The script takes a list of one or more directories as input: it enters each of t
 
 In order to detect what kind of VCS a repository uses, it searches for the specific hidden folders of each of them in the following order:
 
-- .git
-- .hg
-- .svn
+1. `.git`
+2. `.hg`
+3. `.svn`
 
-Which means in case you have a mixed VCS (typical case is a SVN repository inside a git one), they'll be detected following the former ordering.
+Which means in case you have a mixed VCS (typical case is a SVN repository inside a git one), they'll be detected following the former order.
