@@ -31,4 +31,4 @@ In order to detect what kind of VCS a repository uses, it searches for the speci
 2. `.hg`
 3. `.svn`
 
-Which means in case you have a mixed VCS (typical case is a SVN repository inside a git one), they'll be detected following the former order.
+Which means in case you have mixed VCS (typical case is a SVN repository inside a git one), they'll be detected following the former order (in the example, it'll be detected and updated as a git repository, not as a subversion one).
