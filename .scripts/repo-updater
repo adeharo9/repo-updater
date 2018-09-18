@@ -17,6 +17,8 @@ function usage
 }
 
 ## REPO TESTING FUNCTION DEFINITIONS
+# $1: VCS special hidden directory
+# $2: directory where the repository is thought to be
 function isRepoType
 {
     if [[ $# -eq 0 ]];
@@ -35,22 +37,31 @@ function isRepoType
     [[ -d ${DIR}/$1 ]];
 }
 
+# $1: directory
 function isGit
 {
     isRepoType ${GIT_DIR} $1
 }
+
+# $1: directory
 function isHg
 {
     isRepoType ${HG_DIR} $1
 }
 
+# $1: directory
 function isSvn
 {
     isRepoType ${SVN_DIR} $1
 }
 
 ## REPO UPDATE FUNCTION DEFINITIONS
-function updateGit
+
+# $1: repository directory
+# $2: vcs name
+# $3: vcs counter
+# $4: vcs update command
+function updateRepo
 {
     if [[ $# -eq 0 ]];
     then
@@ -59,49 +70,28 @@ function updateGit
     fi
 
     OLD_PATH=$(pwd)
-	printf "    Updating git repository %s...\n" $1
+	printf "    Updating %s repository %s...\n" $2 $1
 	cd $1
 	printf "    "
-	git pull
-	((++GIT_COUNT))
+	eval $4
+	((++$3))
     printf "\n"
     cd ${OLD_PATH}
+}
+
+function updateGit
+{
+    updateRepo $1 git GIT_COUNT "git pull"
 }
 
 function updateHg
 {
-    if [[ $# -eq 0 ]];
-    then
-        false
-        return
-    fi
-
-    OLD_PATH=$(pwd)
-	printf "    Updating hg repository %s...\n" $1
-	cd $1
-	printf "    "
-	hg pull
-	((++HG_COUNT))
-    printf "\n"
-    cd ${OLD_PATH}
+    updateRepo $1 hg HG_COUNT "hg pull"
 }
 
 function updateSvn
 {
-    if [[ $# -eq 0 ]];
-    then
-        false
-        return
-    fi
-
-    OLD_PATH=$(pwd)
-	printf "    Updating svn repository %s...\n" $1
-	printf "    "
-	cd $1
-	svn update
-	((++SVN_COUNT))
-    printf "\n"
-    cd ${OLD_PATH}
+    updateRepo $1 svn SVN_COUNT "svn update"
 }
 
 ## SCRIPT BODY
