@@ -4,9 +4,9 @@ Script for automatic repository update over bash terminal (although it shouldn't
 ## Supported VCS
 Currently supported version control systems are:
 
-- Git
-- Mercurial
-- Subversion
+- **Git**
+- **Mercurial**
+- **Subversion**
 
 ## Installation
 I like to put all my utility scripts under `~/.scripts` and add this directory to my path by using the following command:
